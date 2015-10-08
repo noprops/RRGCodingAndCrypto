@@ -41,8 +41,8 @@ return nullptr;\
 #define ENCODE_STRING(X) coder->encodeString(X,#X)
 #define DECODE_STRING(X) X=coder->decodeString(#X)
 
-#define ENCODE_BOOL(X) coder->encodeBOOL(X,#X)
-#define DECODE_BOOL(X) X=coder->decodeBOOL(#X)
+#define ENCODE_BOOL(X) coder->encodeBool(X,#X)
+#define DECODE_BOOL(X) X=coder->decodeBool(#X)
 
 #define ENCODE_POINT(X) coder->encodePoint(X,#X)
 #define DECODE_POINT(X) X=coder->decodePoint(#X)
