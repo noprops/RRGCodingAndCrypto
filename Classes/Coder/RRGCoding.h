@@ -100,8 +100,8 @@ namespace RRGCoding {
         static bool registerEncodableObject(const std::string& className, AllocFuncPtr alloc_func);
         static EncodableObject *allocWithString(const std::string& className);
         
-        virtual void encodeWithCoder(Coder *encoder) { } //= 0;
-        virtual void initWithCoder(Coder *decoder) { } //= 0;
+        virtual void encodeWithCoder(Coder* coder) { } //= 0;
+        virtual void initWithCoder(Coder* coder) { } //= 0;
         
         const std::string& getClassName();
     };

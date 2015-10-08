@@ -20,8 +20,8 @@ public:
     virtual ~RRGLevelObject();
     virtual bool initWithLevel(RRGLevel* level);
     
-    virtual void encodeWithCoder(RRGCoding::Coder *encoder) override;
-    virtual void initWithCoder(RRGCoding::Coder *decoder) override;
+    virtual void encodeWithCoder(RRGCoding::Coder* coder) override;
+    virtual void initWithCoder(RRGCoding::Coder* coder) override;
     
     const cocos2d::Vec2& getTileCoord() {return _tileCoord;};
     void setTileCoord(const cocos2d::Vec2& tileCoord) {_tileCoord = tileCoord;};

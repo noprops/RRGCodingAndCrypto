@@ -22,8 +22,8 @@ public:
     static RRGLevel* create();
     bool init();
     
-    virtual void encodeWithCoder(RRGCoding::Coder *encoder) override;
-    virtual void initWithCoder(RRGCoding::Coder *decoder) override;
+    virtual void encodeWithCoder(RRGCoding::Coder* coder) override;
+    virtual void initWithCoder(RRGCoding::Coder* coder) override;
     
     std::string getDescription() const override;
 protected:
