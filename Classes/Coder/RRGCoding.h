@@ -65,13 +65,19 @@ return nullptr;\
 #define ENCODE_ARRAY(X,SIZE) coder->encodeArray(X,SIZE,#X)
 #define DECODE_ARRAY(CLASSNAME,X) X=coder->decodeArray<CLASSNAME>(#X)
 
+#define ENCODE_VECTOR(X) coder->encodeVector(X,#X)
+#define DECODE_VECTOR(CLASSNAME,X) X=coder->decodeVector<CLASSNAME>(#X)
+
+#define ENCODE_MAP(X) coder->encodeMap(X,#X)
+#define DECODE_MAP(CLASSNAME,X) X=coder->decodeMap<CLASSNAME>(#X)
+
 #define ENCODE_OBJECT(X) coder->encodeObject(X,#X)
 #define DECODE_OBJECT(CLASSNAME,X) X=coder->decodeObject<CLASSNAME>(#X)
 
-#define ENCODE_VECTOR_OBJECTS(X) coder->encodeVectorOfObjects(&X,#X)
+#define ENCODE_VECTOR_OBJECTS(X) coder->encodeVectorOfObjects(X,#X)
 #define DECODE_VECTOR_OBJECTS(CLASSNAME,X) X=coder->decodeVectorOfObjects<CLASSNAME>(#X)
 
-#define ENCODE_MAP_OBJECTS(X) coder->encodeMapOfObjects(&X,#X)
+#define ENCODE_MAP_OBJECTS(X) coder->encodeMapOfObjects(X,#X)
 #define DECODE_MAP_OBJECTS(CLASSNAME,X) X=coder->decodeMapOfObjects<CLASSNAME>(#X)
 
 namespace RRGCoding {
@@ -100,8 +106,8 @@ namespace RRGCoding {
         static bool registerEncodableObject(const std::string& className, AllocFuncPtr alloc_func);
         static EncodableObject *allocWithString(const std::string& className);
         
-        virtual void encodeWithCoder(Coder* coder) { } //= 0;
-        virtual void initWithCoder(Coder* coder) { } //= 0;
+        virtual void encodeWithCoder(Coder* coder) = 0;
+        virtual void initWithCoder(Coder* coder) = 0;
         
         const std::string& getClassName();
     };
@@ -151,9 +157,6 @@ namespace RRGCoding {
         Unarchiver* _unarchiver;
         
         cocos2d::ValueMap _valueMap;
-        //std::map<std::string, EncodableObject*> _objectValues;
-        //std::map<std::string, cocos2d::Vector<EncodableObject*>*> _vectorObjectsValues;
-        //std::map<std::string, cocos2d::Map<std::string, EncodableObject*>*> _mapObjectsValues;
     public:
         cocos2d::ValueMap getValueMap() {return _valueMap;};
         
@@ -166,8 +169,6 @@ namespace RRGCoding {
         bool initWithArchiver(Archiver* archiver);
         bool initWithUnarchiver(Unarchiver* unarchiver,
                                 const cocos2d::ValueMap& valueMap);
-        
-        //void addObjectValuesToValueMap();
         
         void encodeInt(int i, const std::string& key);
         int decodeInt(const std::string& key);
@@ -199,24 +200,42 @@ namespace RRGCoding {
         void encodeData(const cocos2d::Data& data, const std::string& key);
         cocos2d::Data decodeData(const std::string& key);
         
+#pragma mark - array
+        
         template <typename T>
         void encodeArray(T* array, int size, const std::string& key);
         template <typename T>
         T* decodeArray(const std::string& key);
         
-        template <class T>
+#pragma mark - vector
+        
+        template <typename T>
+        void encodeVector(const std::vector<T>& vector, const std::string& key);
+        template <typename T>
+        std::vector<T> decodeVector(const std::string& key);
+        
+#pragma mark - map
+        
+        template <typename T>
+        void encodeMap(const std::map<std::string,T>& map, const std::string& key);
+        template <typename T>
+        std::map<std::string,T> decodeMap(const std::string& key);
+        
+#pragma mark - object
+        
+        template <typename T>
         void encodeObject(T* object, const std::string& key);
-        template <class T>
+        template <typename T>
         T* decodeObject(const std::string& key);
         
-        template <class T>
-        void encodeVectorOfObjects(cocos2d::Vector<T*>* vector, const std::string& key);
-        template <class T>
+        template <typename T>
+        void encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key);
+        template <typename T>
         cocos2d::Vector<T*> decodeVectorOfObjects(const std::string& key);
         
-        template <class T>
-        void encodeMapOfObjects(cocos2d::Map<std::string, T*>* map, const std::string& key);
-        template <class T>
+        template <typename T>
+        void encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key);
+        template <typename T>
         cocos2d::Map<std::string, T*> decodeMapOfObjects(const std::string& key);
     };
 }

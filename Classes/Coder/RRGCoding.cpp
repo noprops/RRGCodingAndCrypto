@@ -11,11 +11,12 @@
 #include <cstdio>
 #include <algorithm>
 
-static const std::string kRootObject = "__rootObject__";
-static const std::string kUniqueObjects = "__uniqueObjects__";
-static const std::string kClassNames = "__classNames__";
-
+using namespace std;
 USING_NS_CC;
+
+static const char* kRootObject = "__rootObject__";
+static const char* kUniqueObjects = "__uniqueObjects__";
+static const char* kClassNames = "__classNames__";
 
 namespace RRGCoding {
 #pragma mark - EncodableObject
@@ -127,8 +128,6 @@ namespace RRGCoding {
         
         Coder* coder = Coder::createWithArchiver(this);
         object->encodeWithCoder(coder);
-        
-        //coder->addObjectValuesToValueMap();
         
         addValueMap(coder->getValueMap(), getReferenceIndexOfObject(object));
     }
@@ -260,9 +259,6 @@ namespace RRGCoding {
     Coder::~Coder()
     {
         _valueMap.clear();
-        //_objectValues.clear();
-        //_vectorObjectsValues.clear();
-        //_mapObjectsValues.clear();
     }
     
     Coder* Coder::createWithArchiver(Archiver* archiver)
@@ -302,66 +298,6 @@ namespace RRGCoding {
         _valueMap = valueMap;
         return true;
     }
-    /*
-    void Coder::addObjectValuesToValueMap()
-    {
-        std::string key;
-        EncodableObject* o = nullptr;
-        
-        //archive objects
-        for (auto it = _objectValues.begin();
-             it != _objectValues.end(); ++it)
-        {
-            key = it->first;
-            o = it->second;
-            _archiver->generateValueMap(o);
-            _valueMap[key] = _archiver->getReferenceIndexOfObject(o);
-        }
-        
-        Vector<EncodableObject*>* vect;
-        
-        //archive vector of objects
-        for (auto it = _vectorObjectsValues.begin();
-             it != _vectorObjectsValues.end();
-             ++it)
-        {
-            ValueVector valueVector;
-            key = it->first;
-            vect = it->second;
-            for (EncodableObject* o : *vect) {
-                _archiver->generateValueMap(o);
-                int refIndex = _archiver->getReferenceIndexOfObject(o);
-                valueVector.push_back(Value(refIndex));
-            }
-            _valueMap[key] = valueVector;
-        }
-        
-        Map<std::string, EncodableObject*>* map;
-        
-        //archive map of objects
-        for (auto it = _mapObjectsValues.begin();
-             it != _mapObjectsValues.end();
-             ++it)
-        {
-            ValueMap valueMap;
-            key = it->first;
-            map = it->second;
-            
-            for (auto itMap = map->begin();
-                 itMap != map->end();
-                 ++itMap)
-            {
-                std::string keyMap = itMap->first;
-                EncodableObject* objMap = itMap->second;
-                
-                _archiver->generateValueMap(objMap);
-                int refIndex = _archiver->getReferenceIndexOfObject(objMap);
-                valueMap[keyMap] = refIndex;
-            }
-            _valueMap[key] = valueMap;
-        }
-    }
-    */
     
     void Coder::encodeInt(int i, const std::string& key)
     {

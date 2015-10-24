@@ -12,6 +12,9 @@
 #include "RRGCoding.h"
 
 namespace RRGCoding {
+    
+#pragma mark - array
+    
     template <typename T>
     void Coder::encodeArray(T* array, int size, const std::string& key)
     {
@@ -35,7 +38,178 @@ namespace RRGCoding {
         return array;
     }
     
-    template <class T>
+#pragma mark - encode vector
+    
+    template <typename T>
+    void Coder::encodeVector(const std::vector<T>& vector, const std::string& key)
+    {
+        cocos2d::ValueVector valueVector;
+        for (const T& v : vector) {
+            valueVector.push_back(v);
+        }
+        _valueMap[key] = valueVector;
+    }
+    template <>
+    void Coder::encodeVector(const std::vector<cocos2d::Vec2>& vector, const std::string& key)
+    {
+        cocos2d::ValueVector valueVector;
+        for (const cocos2d::Vec2& v : vector) {
+            std::string str = cocos2d::StringUtils::format("{%f,%f}",v.x,v.y);
+            valueVector.push_back(cocos2d::Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    template <>
+    void Coder::encodeVector(const std::vector<cocos2d::Size>& vector, const std::string& key)
+    {
+        cocos2d::ValueVector valueVector;
+        for (const cocos2d::Size& size : vector) {
+            std::string str = cocos2d::StringUtils::format("{%f,%f}",size.width,size.height);
+            valueVector.push_back(cocos2d::Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    template <>
+    void Coder::encodeVector(const std::vector<cocos2d::Rect>& vector, const std::string& key)
+    {
+        cocos2d::ValueVector valueVector;
+        for (const cocos2d::Rect& rect : vector) {
+            std::string str = cocos2d::StringUtils::format("{{%f,%f},{%f,%f}}",
+                                                           rect.origin.x,
+                                                           rect.origin.y,
+                                                           rect.size.width,
+                                                           rect.size.height);
+            valueVector.push_back(cocos2d::Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    
+#pragma mark - decode vector
+    
+    template <typename T>
+    std::vector<T> Coder::decodeVector(const std::string& key)
+    {
+        CCLOG("invalid type");
+        return std::vector<T>();
+    }
+    template <>
+    std::vector<int> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<int> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                ret.push_back(value.asInt());
+            }
+            return ret;
+        } else {
+            return std::vector<int>();
+        }
+    }
+    template <>
+    std::vector<float> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<float> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                ret.push_back(value.asFloat());
+            }
+            return ret;
+        } else {
+            return std::vector<float>();
+        }
+    }
+    template <>
+    std::vector<std::string> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<std::string> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                ret.push_back(value.asString());
+            }
+            return ret;
+        } else {
+            return std::vector<std::string>();
+        }
+    }
+    template <>
+    std::vector<bool> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<bool> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                ret.push_back(value.asBool());
+            }
+            return ret;
+        } else {
+            return std::vector<bool>();
+        }
+    }
+    template <>
+    std::vector<cocos2d::Vec2> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<cocos2d::Vec2> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                std::string str = value.asString();
+                ret.push_back(cocos2d::PointFromString(str));
+            }
+            return ret;
+        } else {
+            return std::vector<cocos2d::Vec2>();
+        }
+    }
+    template <>
+    std::vector<cocos2d::Size> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<cocos2d::Size> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                std::string str = value.asString();
+                ret.push_back(cocos2d::SizeFromString(str));
+            }
+            return ret;
+        } else {
+            return std::vector<cocos2d::Size>();
+        }
+    }
+    template <>
+    std::vector<cocos2d::Rect> Coder::decodeVector(const std::string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            cocos2d::ValueVector valueVector = _valueMap.at(key).asValueVector();
+            std::vector<cocos2d::Rect> ret;
+            for (const cocos2d::Value& value : valueVector) {
+                std::string str = value.asString();
+                ret.push_back(cocos2d::RectFromString(str));
+            }
+            return ret;
+        } else {
+            return std::vector<cocos2d::Rect>();
+        }
+    }
+    
+#pragma mark - map
+    
+    template <typename T>
+    void Coder::encodeMap(const std::map<std::string,T>& map, const std::string& key)
+    {
+        
+    }
+    template <typename T>
+    std::map<std::string,T> Coder::decodeMap(const std::string& key)
+    {
+        
+    }
+    
+#pragma mark - object
+    
+    template <typename T>
     void Coder::encodeObject(T* object, const std::string& key)
     {
         static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
@@ -43,7 +217,8 @@ namespace RRGCoding {
         _archiver->generateValueMap(object);
         _valueMap[key] = _archiver->getReferenceIndexOfObject(object);
     }
-    template <class T>
+    
+    template <typename T>
     T* Coder::decodeObject(const std::string& key)
     {
         if (_valueMap.find(key) == _valueMap.end()) {
@@ -56,20 +231,20 @@ namespace RRGCoding {
         return dynamic_cast<T*>(object);
     }
     
-    template <class T>
-    void Coder::encodeVectorOfObjects(cocos2d::Vector<T*>* vector, const std::string& key)
+    template <typename T>
+    void Coder::encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key)
     {
         static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
         
         cocos2d::ValueVector valueVector;
-        for (EncodableObject* object : *vector) {
+        for (EncodableObject* object : vector) {
             _archiver->generateValueMap(object);
             int refIndex = _archiver->getReferenceIndexOfObject(object);
             valueVector.push_back(cocos2d::Value(refIndex));
         }
         _valueMap[key] = valueVector;
     }
-    template <class T>
+    template <typename T>
     cocos2d::Vector<T*> Coder::decodeVectorOfObjects(const std::string& key)
     {
         if (_valueMap.find(key) == _valueMap.end()) {
@@ -90,14 +265,14 @@ namespace RRGCoding {
         return ret;
     }
     
-    template <class T>
-    void Coder::encodeMapOfObjects(cocos2d::Map<std::string, T*>* map, const std::string& key)
+    template <typename T>
+    void Coder::encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key)
     {
         static_assert(std::is_convertible<T, EncodableObject>::value, "EncodableObject is only enabled.");
         cocos2d::ValueMap valueMap;
         
-        for (auto it = map->begin();
-             it != map->end();
+        for (auto it = map.begin();
+             it != map.end();
              ++it)
         {
             std::string keyMap = it->first;
@@ -109,7 +284,7 @@ namespace RRGCoding {
         }
         _valueMap[key] = valueMap;
     }
-    template <class T>
+    template <typename T>
     cocos2d::Map<std::string, T*> Coder::decodeMapOfObjects(const std::string& key)
     {
         if (_valueMap.find(key) == _valueMap.end()) {
