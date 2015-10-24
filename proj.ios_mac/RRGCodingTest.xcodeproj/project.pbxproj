@@ -163,6 +163,10 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8C002F411BDBCFCF00D4459B /* RRGCoding_Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Array.h; sourceTree = "<group>"; };
+		8C002F441BDBCFDA00D4459B /* RRGCoding_Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Vector.h; sourceTree = "<group>"; };
+		8C002F471BDBCFE400D4459B /* RRGCoding_Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Map.h; sourceTree = "<group>"; };
+		8C002F4A1BDBCFEC00D4459B /* RRGCoding_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Object.h; sourceTree = "<group>"; };
 		8C09559C1BBC199F0003A925 /* RRGCoding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGCoding.cpp; sourceTree = "<group>"; };
 		8C09559D1BBC199F0003A925 /* RRGCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding.h; sourceTree = "<group>"; };
 		8C09559F1BBC1F910003A925 /* RRGLevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGLevel.cpp; sourceTree = "<group>"; };
@@ -177,7 +181,6 @@
 		8C0955AC1BBCD9A10003A925 /* Tamara.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tamara.h; sourceTree = "<group>"; };
 		8C0955AE1BBCDFFB0003A925 /* SecondScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SecondScene.cpp; sourceTree = "<group>"; };
 		8C0955AF1BBCDFFB0003A925 /* SecondScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondScene.h; sourceTree = "<group>"; };
-		8C0955C41BC21EA70003A925 /* RRGCodingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCodingPrivate.h; sourceTree = "<group>"; };
 		8C0955C71BC3741F0003A925 /* RRGCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGCrypto.cpp; sourceTree = "<group>"; };
 		8C0955C81BC3741F0003A925 /* RRGCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCrypto.h; sourceTree = "<group>"; };
 		8C0955CF1BC40D240003A925 /* RRGUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGUtils.cpp; sourceTree = "<group>"; };
@@ -401,7 +404,10 @@
 			children = (
 				8C09559C1BBC199F0003A925 /* RRGCoding.cpp */,
 				8C09559D1BBC199F0003A925 /* RRGCoding.h */,
-				8C0955C41BC21EA70003A925 /* RRGCodingPrivate.h */,
+				8C002F411BDBCFCF00D4459B /* RRGCoding_Array.h */,
+				8C002F441BDBCFDA00D4459B /* RRGCoding_Vector.h */,
+				8C002F471BDBCFE400D4459B /* RRGCoding_Map.h */,
+				8C002F4A1BDBCFEC00D4459B /* RRGCoding_Object.h */,
 			);
 			path = Coder;
 			sourceTree = "<group>";

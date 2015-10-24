@@ -38,6 +38,9 @@ return nullptr;\
 #define ENCODE_FLOAT(X) coder->encodeFloat(X,#X)
 #define DECODE_FLOAT(X) X=coder->decodeFloat(#X)
 
+#define ENCODE_DOUBLE(X) coder->encodeDouble(X,#X)
+#define DECODE_DOUBLE(X) X=coder->decodeDouble(#X)
+
 #define ENCODE_STRING(X) coder->encodeString(X,#X)
 #define DECODE_STRING(X) X=coder->decodeString(#X)
 
@@ -176,7 +179,10 @@ namespace RRGCoding {
         void encodeFloat(float f, const std::string& key);
         float decodeFloat(const std::string& key);
         
-        void encodeString(const std::string& string, const std::string& key);
+        void encodeDouble(double d, const std::string& key);
+        float decodeDouble(const std::string& key);
+        
+        void encodeString(const std::string& str, const std::string& key);
         std::string decodeString(const std::string& key);
         
         void encodeBool(bool b, const std::string& key);
@@ -240,6 +246,9 @@ namespace RRGCoding {
     };
 }
 
-#include "RRGCodingPrivate.h"
+#include "RRGCoding_Array.h"
+#include "RRGCoding_Vector.h"
+#include "RRGCoding_Map.h"
+#include "RRGCoding_Object.h"
 
 #endif /* defined(__Roborogue__RRGCoding__) */
