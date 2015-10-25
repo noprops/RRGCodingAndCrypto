@@ -20,7 +20,7 @@ public:
     RRGLevel();
     virtual ~RRGLevel();
     static RRGLevel* create();
-    bool init();
+    bool init() override;
     
     virtual void encodeWithCoder(RRGCoding::Coder* coder) override;
     virtual void initWithCoder(RRGCoding::Coder* coder) override;
@@ -43,6 +43,9 @@ private:
     
     cocos2d::ValueVector _valueVector;
     cocos2d::ValueMap _valueMap;
+    
+    std::vector<cocos2d::Vec2> _pointVector;
+    std::map<std::string, cocos2d::Rect> _rectMap;
 };
 
 #endif /* defined(__RRGCodingTest__RRGLevel__) */

@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef __Roborogue__RRGCoding__
-#define __Roborogue__RRGCoding__
+#ifndef __RRGCodingTest__RRGCoding__
+#define __RRGCodingTest__RRGCoding__
 
 #include "cocos2d.h"
 
@@ -63,16 +63,28 @@ return nullptr;\
 #define DECODE_VALUEMAP(X) X=coder->decodeValueMap(#X)
 
 #define ENCODE_DATA(X) coder->encodeData(X,#X)
-#define DECODE_DATA(X) coder->decodeData(#X)
+#define DECODE_DATA(X) X=coder->decodeData(#X)
+
+#define ENCODE_VEC2_VECTOR(X) coder->encodeVec2Vector(X,#X)
+#define DECODE_VEC2_VECTOR(X) X=coder->decodeVec2Vector(#X)
+
+#define ENCODE_SIZE_VECTOR(X) coder->encodeSizeVector(X,#X)
+#define DECODE_SIZE_VECTOR(X) X=coder->decodeSizeVector(#X)
+
+#define ENCODE_RECT_VECTOR(X) coder->encodeRectVector(X,#X)
+#define DECODE_RECT_VECTOR(X) X=coder->decodeRectVector(#X)
+
+#define ENCODE_VEC2_MAP(X) coder->encodeVec2Map(X,#X)
+#define DECODE_VEC2_MAP(X) X=coder->decodeVec2Map(#X)
+
+#define ENCODE_SIZE_MAP(X) coder->encodeSizeMap(X,#X)
+#define DECODE_SIZE_MAP(X) X=coder->decodeSizeMap(#X)
+
+#define ENCODE_RECT_MAP(X) coder->encodeRectMap(X,#X)
+#define DECODE_RECT_MAP(X) X=coder->decodeRectMap(#X)
 
 #define ENCODE_ARRAY(X,SIZE) coder->encodeArray(X,SIZE,#X)
 #define DECODE_ARRAY(CLASSNAME,X) X=coder->decodeArray<CLASSNAME>(#X)
-
-#define ENCODE_VECTOR(X) coder->encodeVector(X,#X)
-#define DECODE_VECTOR(CLASSNAME,X) X=coder->decodeVector<CLASSNAME>(#X)
-
-#define ENCODE_MAP(X) coder->encodeMap(X,#X)
-#define DECODE_MAP(CLASSNAME,X) X=coder->decodeMap<CLASSNAME>(#X)
 
 #define ENCODE_OBJECT(X) coder->encodeObject(X,#X)
 #define DECODE_OBJECT(CLASSNAME,X) X=coder->decodeObject<CLASSNAME>(#X)
@@ -206,26 +218,34 @@ namespace RRGCoding {
         void encodeData(const cocos2d::Data& data, const std::string& key);
         cocos2d::Data decodeData(const std::string& key);
         
+#pragma mark - vector
+        
+        void encodeVec2Vector(const std::vector<cocos2d::Vec2>& vector, const std::string& key);
+        std::vector<cocos2d::Vec2> decodeVec2Vector(const std::string& key);
+        
+        void encodeSizeVector(const std::vector<cocos2d::Size>& vector, const std::string& key);
+        std::vector<cocos2d::Size> decodeSizeVector(const std::string& key);
+        
+        void encodeRectVector(const std::vector<cocos2d::Rect>& vector, const std::string& key);
+        std::vector<cocos2d::Rect> decodeRectVector(const std::string& key);
+        
+#pragma mark - map
+        
+        void encodeVec2Map(const std::map<std::string, cocos2d::Vec2>& map, const std::string& key);
+        std::map<std::string, cocos2d::Vec2> decodeVec2Map(const std::string& key);
+        
+        void encodeSizeMap(const std::map<std::string, cocos2d::Size>& map, const std::string& key);
+        std::map<std::string, cocos2d::Size> decodeSizeMap(const std::string& key);
+        
+        void encodeRectMap(const std::map<std::string, cocos2d::Rect>& map, const std::string& key);
+        std::map<std::string, cocos2d::Rect> decodeRectMap(const std::string& key);
+        
 #pragma mark - array
         
         template <typename T>
         void encodeArray(T* array, int size, const std::string& key);
         template <typename T>
         T* decodeArray(const std::string& key);
-        
-#pragma mark - vector
-        
-        template <typename T>
-        void encodeVector(const std::vector<T>& vector, const std::string& key);
-        template <typename T>
-        std::vector<T> decodeVector(const std::string& key);
-        
-#pragma mark - map
-        
-        template <typename T>
-        void encodeMap(const std::map<std::string,T>& map, const std::string& key);
-        template <typename T>
-        std::map<std::string,T> decodeMap(const std::string& key);
         
 #pragma mark - object
         
@@ -246,9 +266,6 @@ namespace RRGCoding {
     };
 }
 
-#include "RRGCoding_Array.h"
-#include "RRGCoding_Vector.h"
-#include "RRGCoding_Map.h"
-#include "RRGCoding_Object.h"
+#include "RRGCoding_Private.h"
 
-#endif /* defined(__Roborogue__RRGCoding__) */
+#endif /* defined(__RRGCodingTest__RRGCoding__) */

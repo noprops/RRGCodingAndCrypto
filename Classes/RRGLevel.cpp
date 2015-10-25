@@ -96,6 +96,11 @@ bool RRGLevel::init()
         _valueMap["float"] = 1.414;
         _valueMap["string"] = "testtest&amp;lt;/string&gt;testtest";
         
+        for (int i = 1; i <= 10; i++) {
+            _pointVector.push_back(Vec2(i,i));
+            _rectMap[std::to_string(i)] = Rect(i,i,i,i);
+        }
+        
         return true;
     } else {
         return false;
@@ -124,6 +129,10 @@ void RRGLevel::initWithCoder(RRGCoding::Coder* coder)
     
     DECODE_VALUEVECTOR(_valueVector);
     DECODE_VALUEMAP(_valueMap);
+    
+    DECODE_VEC2_VECTOR(_pointVector);
+    
+    DECODE_RECT_MAP(_rectMap);
 }
 
 void RRGLevel::encodeWithCoder(RRGCoding::Coder* coder)
@@ -143,6 +152,10 @@ void RRGLevel::encodeWithCoder(RRGCoding::Coder* coder)
     
     ENCODE_VALUEVECTOR(_valueVector);
     ENCODE_VALUEMAP(_valueMap);
+    
+    ENCODE_VEC2_VECTOR(_pointVector);
+    
+    ENCODE_RECT_MAP(_rectMap);
 }
 
 std::string RRGLevel::getDescription() const
@@ -191,6 +204,26 @@ std::string RRGLevel::getDescription() const
         std::string key = it->first;
         Value value = it->second;
         ret.append("(" + key + "," + value.getDescription() + ")");
+    }
+    ret.append("\n");
+    
+    ret.append("_pointVector : ");
+    for (const Vec2& v : _pointVector) {
+        ret.append(StringUtils::format("(%.0f,%.0f), ",v.x,v.y));
+    }
+    ret.append("\n");
+    
+    ret.append("_rectMap : ");
+    for (auto it = _rectMap.begin();
+         it != _rectMap.end();
+         ++it)
+    {
+        const Rect& rect = it->second;
+        ret.append("(" + it->first + "," + StringUtils::format("((%.0f,%.0f)(%.0f,%.0f))",
+                                                               rect.origin.x,
+                                                               rect.origin.y,
+                                                               rect.size.width,
+                                                               rect.size.height) + ")");
     }
     ret.append("\n");
     

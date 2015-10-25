@@ -1,21 +1,44 @@
 //
-//  RRGCoding_Object.h
+//  RRGCoding_Private.h
 //  RRGCodingTest
 //
 //  Created by 山本政徳 on 2015/10/24.
 //
 //
 
-#ifndef __RRGCodingTest__RRGCoding_Object__
-#define __RRGCodingTest__RRGCoding_Object__
+#ifndef __RRGCodingTest__RRGCoding_Private__
+#define __RRGCodingTest__RRGCoding_Private__
 
 #include "RRGCoding.h"
 
 namespace RRGCoding {
     template <typename T>
+    void Coder::encodeArray(T* array, int size, const std::string& key)
+    {
+        //CCLOG("%s", __PRETTY_FUNCTION__);
+        cocos2d::Data data;
+        data.copy((unsigned char*)array, sizeof(T) * size);
+        encodeData(data, key);
+    }
+    template <typename T>
+    T* Coder::decodeArray(const std::string& key)
+    {
+        //CCLOG("%s", __PRETTY_FUNCTION__);
+        cocos2d::Data data = decodeData(key);
+        if (data.isNull()) {
+            CCLOG("data is null.");
+            return nullptr;
+        }
+        ssize_t size = data.getSize();
+        T* array = new T[size];
+        memcpy(array, data.getBytes(), size);
+        return array;
+    }
+    
+    template <typename T>
     void Coder::encodeObject(T* object, const std::string& key)
     {
-        static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
+        //static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
         
         _archiver->generateValueMap(object);
         _valueMap[key] = _archiver->getReferenceIndexOfObject(object);
@@ -37,7 +60,7 @@ namespace RRGCoding {
     template <typename T>
     void Coder::encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key)
     {
-        static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
+        //static_assert(std::is_convertible<T, EncodableObject>::value, "must be EncodableObject.");
         
         cocos2d::ValueVector valueVector;
         for (EncodableObject* object : vector) {
@@ -71,7 +94,7 @@ namespace RRGCoding {
     template <typename T>
     void Coder::encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key)
     {
-        static_assert(std::is_convertible<T, EncodableObject>::value, "EncodableObject is only enabled.");
+        //static_assert(std::is_convertible<T, EncodableObject>::value, "EncodableObject is only enabled.");
         cocos2d::ValueMap valueMap;
         
         for (auto it = map.begin();
@@ -109,6 +132,6 @@ namespace RRGCoding {
         }
         return ret;
     }
-};
+}
 
-#endif /* defined(__RRGCodingTest__RRGCoding_Object__) */
+#endif /* defined(__RRGCodingTest__RRGCoding_Private__) */

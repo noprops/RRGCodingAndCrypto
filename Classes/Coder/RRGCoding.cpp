@@ -470,4 +470,172 @@ namespace RRGCoding {
             return Data::Null;
         }
     }
+    
+#pragma mark - vector
+    
+    void Coder::encodeVec2Vector(const vector<Vec2>& vector, const string& key)
+    {
+        ValueVector valueVector;
+        for (const Vec2& v : vector) {
+            string str = StringUtils::format("{%f,%f}",v.x,v.y);
+            valueVector.push_back(Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    vector<Vec2> Coder::decodeVec2Vector(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueVector valueVector = _valueMap.at(key).asValueVector();
+            vector<Vec2> ret;
+            for (const Value& value : valueVector) {
+                ret.push_back(PointFromString(value.asString()));
+            }
+            return ret;
+        } else {
+            return vector<Vec2>();
+        }
+    }
+    
+    void Coder::encodeSizeVector(const vector<Size>& vector, const string& key)
+    {
+        ValueVector valueVector;
+        for (const Size& size : vector) {
+            string str = StringUtils::format("{%f,%f}",size.width,size.height);
+            valueVector.push_back(Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    vector<Size> Coder::decodeSizeVector(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueVector valueVector = _valueMap.at(key).asValueVector();
+            vector<Size> ret;
+            for (const Value& value : valueVector) {
+                ret.push_back(SizeFromString(value.asString()));
+            }
+            return ret;
+        } else {
+            return vector<Size>();
+        }
+    }
+    
+    void Coder::encodeRectVector(const vector<Rect>& vector, const string& key)
+    {
+        ValueVector valueVector;
+        for (const Rect& rect : vector) {
+            string str = StringUtils::format("{{%f,%f},{%f,%f}}",
+                                                  rect.origin.x,
+                                                  rect.origin.y,
+                                                  rect.size.width,
+                                                  rect.size.height);
+            valueVector.push_back(Value(str));
+        }
+        _valueMap[key] = valueVector;
+    }
+    vector<Rect> Coder::decodeRectVector(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueVector valueVector = _valueMap.at(key).asValueVector();
+            vector<Rect> ret;
+            for (const Value& value : valueVector) {
+                ret.push_back(RectFromString(value.asString()));
+            }
+            return ret;
+        } else {
+            return vector<Rect>();
+        }
+    }
+    
+#pragma mark - map
+    
+    void Coder::encodeVec2Map(const map<string, Vec2>& map, const string& key)
+    {
+        ValueMap valueMap;
+        for (auto it = map.begin();
+             it != map.end();
+             ++it)
+        {
+            string str = StringUtils::format("{%f,%f}",it->second.x,it->second.y);
+            valueMap[it->first] = str;
+        }
+        _valueMap[key] = valueMap;
+    }
+    map<string, Vec2> Coder::decodeVec2Map(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueMap valueMap = _valueMap.at(key).asValueMap();
+            map<string, Vec2> ret;
+            for (auto it = valueMap.begin();
+                 it != valueMap.end();
+                 ++it)
+            {
+                ret[it->first] = PointFromString(it->second.asString());
+            }
+            return ret;
+        } else {
+            return map<string,Vec2>();
+        }
+    }
+    
+    void Coder::encodeSizeMap(const map<string, Size>& map, const string& key)
+    {
+        ValueMap valueMap;
+        for (auto it = map.begin();
+             it != map.end();
+             ++it)
+        {
+            string str = StringUtils::format("{%f,%f}",it->second.width,it->second.height);
+            valueMap[it->first] = str;
+        }
+        _valueMap[key] = valueMap;
+    }
+    map<string, Size> Coder::decodeSizeMap(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueMap valueMap = _valueMap.at(key).asValueMap();
+            map<string, Size> ret;
+            for (auto it = valueMap.begin();
+                 it != valueMap.end();
+                 ++it)
+            {
+                ret[it->first] = SizeFromString(it->second.asString());
+            }
+            return ret;
+        } else {
+            return map<string,Size>();
+        }
+    }
+    
+    void Coder::encodeRectMap(const map<string, Rect>& map, const string& key)
+    {
+        ValueMap valueMap;
+        for (auto it = map.begin();
+             it != map.end();
+             ++it)
+        {
+            string str = StringUtils::format("{{%f,%f},{%f,%f}}",
+                                                  it->second.origin.x,
+                                                  it->second.origin.y,
+                                                  it->second.size.width,
+                                                  it->second.size.height);
+            valueMap[it->first] = str;
+        }
+        _valueMap[key] = valueMap;
+    }
+    map<string, Rect> Coder::decodeRectMap(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            ValueMap valueMap = _valueMap.at(key).asValueMap();
+            map<string, Rect> ret;
+            for (auto it = valueMap.begin();
+                 it != valueMap.end();
+                 ++it)
+            {
+                ret[it->first] = RectFromString(it->second.asString());
+            }
+            return ret;
+        } else {
+            return map<string,Rect>();
+        }
+    }
 }

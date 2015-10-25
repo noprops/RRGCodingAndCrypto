@@ -83,7 +83,27 @@ namespace RRGCrypto {
         return kCCKeySizeAES256;
     }
     
-    Data encryptString(const std::string& str, const char* key)
+    size_t encryptAES256(const void* plaintext,
+                         size_t plaintextLength,
+                         void* ciphertext,
+                         size_t ciphertextBufferLength,
+                         const void* key,
+                         size_t keyLength)
+    {
+        return cryptAES256(false, plaintext, plaintextLength, ciphertext, ciphertextBufferLength, key, keyLength);
+    }
+    
+    size_t decryptAES256(const void* ciphertext,
+                         size_t ciphertextLength,
+                         void* plaintext,
+                         size_t plaintextBufferLength,
+                         const void* key,
+                         size_t keyLength)
+    {
+        return cryptAES256(true, ciphertext, ciphertextLength, plaintext, plaintextBufferLength, key, keyLength);
+    }
+    
+    Data encryptString(const string& str, const char* key)
     {
         const char* plainText = str.c_str();
         size_t plainLength = strlen(plainText);
@@ -103,7 +123,7 @@ namespace RRGCrypto {
         return data;
     }
     
-    std::string decryptString(const Data& data, const char* key)
+    string decryptString(const Data& data, const char* key)
     {
         void* ciphertext = data.getBytes();
         size_t ciphertextLength = data.getSize();
@@ -116,7 +136,7 @@ namespace RRGCrypto {
                                            bufferLength,
                                            key,
                                            keyLen);
-        std::string ret((const char*)buff, plainLength);
+        string ret((const char*)buff, plainLength);
         free(buff);
         return ret;
     }
