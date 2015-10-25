@@ -97,7 +97,9 @@ bool RRGLevel::init()
         _valueMap["string"] = "testtest&amp;lt;/string&gt;testtest";
         
         for (int i = 1; i <= 10; i++) {
+            _intVector.push_back(i);
             _pointVector.push_back(Vec2(i,i));
+            _doubleMap[std::to_string(i)] = i + i * .1 + i * .01 + i * .001;
             _rectMap[std::to_string(i)] = Rect(i,i,i,i);
         }
         
@@ -130,9 +132,11 @@ void RRGLevel::initWithCoder(RRGCoding::Coder* coder)
     DECODE_VALUEVECTOR(_valueVector);
     DECODE_VALUEMAP(_valueMap);
     
-    DECODE_VEC2_VECTOR(_pointVector);
+    DECODE_VECTOR(int, _intVector);
+    DECODE_VECTOR(Vec2, _pointVector);
     
-    DECODE_RECT_MAP(_rectMap);
+    DECODE_MAP(double, _doubleMap);
+    DECODE_MAP(Rect, _rectMap);
 }
 
 void RRGLevel::encodeWithCoder(RRGCoding::Coder* coder)
@@ -153,9 +157,11 @@ void RRGLevel::encodeWithCoder(RRGCoding::Coder* coder)
     ENCODE_VALUEVECTOR(_valueVector);
     ENCODE_VALUEMAP(_valueMap);
     
-    ENCODE_VEC2_VECTOR(_pointVector);
+    ENCODE_VECTOR(_intVector);
+    ENCODE_VECTOR(_pointVector);
     
-    ENCODE_RECT_MAP(_rectMap);
+    ENCODE_MAP(_doubleMap);
+    ENCODE_MAP(_rectMap);
 }
 
 std::string RRGLevel::getDescription() const
@@ -207,9 +213,24 @@ std::string RRGLevel::getDescription() const
     }
     ret.append("\n");
     
+    ret.append("_intVector : ");
+    for (const int& i : _intVector) {
+        ret.append(std::to_string(i) + ",");
+    }
+    ret.append("\n");
+    
     ret.append("_pointVector : ");
     for (const Vec2& v : _pointVector) {
         ret.append(StringUtils::format("(%.0f,%.0f), ",v.x,v.y));
+    }
+    ret.append("\n");
+    
+    ret.append("_doubleMap : ");
+    for (auto it = _doubleMap.begin();
+         it != _doubleMap.end();
+         ++it)
+    {
+        ret.append("(" + it->first + "," + std::to_string(it->second) + ")");
     }
     ret.append("\n");
     

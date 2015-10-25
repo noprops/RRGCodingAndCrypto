@@ -1,40 +1,17 @@
 //
-//  RRGCoding_Private.h
+//  RRGCoding_Object.h
 //  RRGCodingTest
 //
-//  Created by 山本政徳 on 2015/10/24.
+//  Created by 山本政徳 on 2015/10/25.
 //
 //
 
-#ifndef __RRGCodingTest__RRGCoding_Private__
-#define __RRGCodingTest__RRGCoding_Private__
+#ifndef __RRGCodingTest__RRGCoding_Object__
+#define __RRGCodingTest__RRGCoding_Object__
 
 #include "RRGCoding.h"
 
 namespace RRGCoding {
-    template <typename T>
-    void Coder::encodeArray(T* array, int size, const std::string& key)
-    {
-        //CCLOG("%s", __PRETTY_FUNCTION__);
-        cocos2d::Data data;
-        data.copy((unsigned char*)array, sizeof(T) * size);
-        encodeData(data, key);
-    }
-    template <typename T>
-    T* Coder::decodeArray(const std::string& key)
-    {
-        //CCLOG("%s", __PRETTY_FUNCTION__);
-        cocos2d::Data data = decodeData(key);
-        if (data.isNull()) {
-            CCLOG("data is null.");
-            return nullptr;
-        }
-        ssize_t size = data.getSize();
-        T* array = new T[size];
-        memcpy(array, data.getBytes(), size);
-        return array;
-    }
-    
     template <typename T>
     void Coder::encodeObject(T* object, const std::string& key)
     {
@@ -56,6 +33,8 @@ namespace RRGCoding {
         EncodableObject* object = _unarchiver->getObjectForReferenceIndex(referenceIndex);
         return dynamic_cast<T*>(object);
     }
+    
+#pragma mark - vector
     
     template <typename T>
     void Coder::encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key)
@@ -90,6 +69,8 @@ namespace RRGCoding {
         }
         return ret;
     }
+    
+#pragma mark - map
     
     template <typename T>
     void Coder::encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key)
@@ -134,4 +115,4 @@ namespace RRGCoding {
     }
 }
 
-#endif /* defined(__RRGCodingTest__RRGCoding_Private__) */
+#endif /* defined(__RRGCodingTest__RRGCoding_Object__) */

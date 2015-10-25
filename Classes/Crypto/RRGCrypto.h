@@ -12,14 +12,6 @@
 #include "cocos2d.h"
 
 namespace RRGCrypto {
-    size_t cryptAES256(bool isDecrypt,
-                       const void* input,
-                       size_t inputLength,
-                       void* output,
-                       size_t outputBufferLength,
-                       const void* key,
-                       size_t keyLength);
-    
     /** @brief Return AES256 key length */
     size_t getAES256KeyLength(void);
     
