@@ -14,7 +14,7 @@
 namespace RRGCoding {
 #pragma mark - encode vector
     template <typename T>
-    inline void Coder::encodeMap(const std::map<std::string,T>& map, const std::string& key)
+    inline void Coder::encodeMap(const std::unordered_map<std::string,T>& map, const std::string& key)
     {
         cocos2d::ValueMap valueMap;
         for (auto it = map.begin();
@@ -26,7 +26,7 @@ namespace RRGCoding {
         _valueMap[key] = valueMap;
     }
     template <>
-    inline void Coder::encodeMap(const std::map<std::string,cocos2d::Vec2>& map, const std::string& key)
+    inline void Coder::encodeMap(const std::unordered_map<std::string,cocos2d::Vec2>& map, const std::string& key)
     {
         cocos2d::ValueMap valueMap;
         for (auto it = map.begin();
@@ -38,7 +38,7 @@ namespace RRGCoding {
         _valueMap[key] = valueMap;
     }
     template <>
-    inline void Coder::encodeMap(const std::map<std::string,cocos2d::Size>& map, const std::string& key)
+    inline void Coder::encodeMap(const std::unordered_map<std::string,cocos2d::Size>& map, const std::string& key)
     {
         cocos2d::ValueMap valueMap;
         for (auto it = map.begin();
@@ -50,7 +50,7 @@ namespace RRGCoding {
         _valueMap[key] = valueMap;
     }
     template <>
-    inline void Coder::encodeMap(const std::map<std::string,cocos2d::Rect>& map, const std::string& key)
+    inline void Coder::encodeMap(const std::unordered_map<std::string,cocos2d::Rect>& map, const std::string& key)
     {
         cocos2d::ValueMap valueMap;
         for (auto it = map.begin();
@@ -67,17 +67,17 @@ namespace RRGCoding {
     }
  #pragma mark - decode vector
     template <typename T>
-    inline std::map<std::string,T> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,T> Coder::decodeMap(const std::string& key)
     {
         CCLOG("invalid type");
-        return std::map<std::string,T>();
+        return std::unordered_map<std::string,T>();
     }
     template <>
-    inline std::map<std::string,int> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,int> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,int> ret;
+            std::unordered_map<std::string,int> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -86,15 +86,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,int>();
+            return std::unordered_map<std::string,int>();
         }
     }
     template <>
-    inline std::map<std::string,float> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,float> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,float> ret;
+            std::unordered_map<std::string,float> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -103,15 +103,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,float>();
+            return std::unordered_map<std::string,float>();
         }
     }
     template <>
-    inline std::map<std::string,double> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,double> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,double> ret;
+            std::unordered_map<std::string,double> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -120,15 +120,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,double>();
+            return std::unordered_map<std::string,double>();
         }
     }
     template <>
-    inline std::map<std::string,std::string> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,std::string> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,std::string> ret;
+            std::unordered_map<std::string,std::string> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -137,15 +137,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,std::string>();
+            return std::unordered_map<std::string,std::string>();
         }
     }
     template <>
-    inline std::map<std::string,bool> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,bool> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,bool> ret;
+            std::unordered_map<std::string,bool> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -154,15 +154,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,bool>();
+            return std::unordered_map<std::string,bool>();
         }
     }
     template <>
-    inline std::map<std::string,cocos2d::Vec2> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,cocos2d::Vec2> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,cocos2d::Vec2> ret;
+            std::unordered_map<std::string,cocos2d::Vec2> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -171,15 +171,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,cocos2d::Vec2>();
+            return std::unordered_map<std::string,cocos2d::Vec2>();
         }
     }
     template <>
-    inline std::map<std::string,cocos2d::Size> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,cocos2d::Size> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,cocos2d::Size> ret;
+            std::unordered_map<std::string,cocos2d::Size> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -188,15 +188,15 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,cocos2d::Size>();
+            return std::unordered_map<std::string,cocos2d::Size>();
         }
     }
     template <>
-    inline std::map<std::string,cocos2d::Rect> Coder::decodeMap(const std::string& key)
+    inline std::unordered_map<std::string,cocos2d::Rect> Coder::decodeMap(const std::string& key)
     {
         if (_valueMap.find(key) != _valueMap.end()) {
             cocos2d::ValueMap valueMap = _valueMap.at(key).asValueMap();
-            std::map<std::string,cocos2d::Rect> ret;
+            std::unordered_map<std::string,cocos2d::Rect> ret;
             for (auto it = valueMap.begin();
                  it != valueMap.end();
                  ++it)
@@ -205,7 +205,7 @@ namespace RRGCoding {
             }
             return ret;
         } else {
-            return std::map<std::string,cocos2d::Rect>();
+            return std::unordered_map<std::string,cocos2d::Rect>();
         }
     }
 }

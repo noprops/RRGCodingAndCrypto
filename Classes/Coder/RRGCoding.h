@@ -98,7 +98,7 @@ namespace RRGCoding {
         
         typedef EncodableObject* (*AllocFuncPtr)();
         
-        typedef std::map<std::string, EncodableObject::AllocFuncPtr> StringToAllocFuncMap;
+        typedef std::unordered_map<std::string, EncodableObject::AllocFuncPtr> StringToAllocFuncMap;
         
         static StringToAllocFuncMap & commonFuncMap()
         {
@@ -223,9 +223,9 @@ namespace RRGCoding {
 #pragma mark - map
         
         template <typename T>
-        inline void encodeMap(const std::map<std::string,T>& map, const std::string& key);
+        inline void encodeMap(const std::unordered_map<std::string,T>& map, const std::string& key);
         template <typename T>
-        inline std::map<std::string,T> decodeMap(const std::string& key);
+        inline std::unordered_map<std::string,T> decodeMap(const std::string& key);
         
 #pragma mark - object
         

@@ -46,8 +46,8 @@ private:
     
     std::vector<int> _intVector;
     std::vector<cocos2d::Vec2> _pointVector;
-    std::map<std::string, double> _doubleMap;
-    std::map<std::string, cocos2d::Rect> _rectMap;
+    std::unordered_map<std::string, double> _doubleMap;
+    std::unordered_map<std::string, cocos2d::Rect> _rectMap;
 };
 
 #endif /* defined(__RRGCodingTest__RRGLevel__) */
