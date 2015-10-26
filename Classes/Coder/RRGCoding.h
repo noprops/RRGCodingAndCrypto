@@ -34,6 +34,7 @@ return nullptr;\
 
 #define ENCODE_INT(X) coder->encodeInt(X,#X)
 #define DECODE_INT(X) X=coder->decodeInt(#X)
+#define DECODE_ENUM(ENUMTYPE,X) X=static_cast<ENUMTYPE>(coder->decodeInt(#X))
 
 #define ENCODE_FLOAT(X) coder->encodeFloat(X,#X)
 #define DECODE_FLOAT(X) X=coder->decodeFloat(#X)
