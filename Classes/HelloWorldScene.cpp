@@ -5,8 +5,10 @@
 #include "RRGCrypto.h"
 #include "RRGUtils.h"
 
-static const std::string kFileName = "saveData.dat";
-static const char* kEncyptionKey = "testtestestestestest";
+namespace {
+    const char* kFileName = "saveData.dat";
+    const char* kEncyptionKey = "testtestestestestest";
+}
 
 USING_NS_CC;
 

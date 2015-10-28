@@ -10,9 +10,11 @@
 #include "RRGPlayer.h"
 #include "Tamara.h"
 
-USING_NS_CC;
+namespace {
+    const int intArraySize = 10;
+}
 
-static const int intArraySize = 10;
+USING_NS_CC;
 
 ENCODABLE_OBJECT_DEFINE_CONSTRUCTOR(RRGLevel);
 

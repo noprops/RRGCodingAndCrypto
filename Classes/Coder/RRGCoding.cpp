@@ -11,13 +11,15 @@
 #include <cstdio>
 #include <algorithm>
 
+namespace {
+    const char* kRootObject = "__rootObject__";
+    const char* kUniqueObjects = "__uniqueObjects__";
+    const char* kClassNames = "__classNames__";
+}
+
 using namespace std;
 USING_NS_CC;
-
-static const char* kRootObject = "__rootObject__";
-static const char* kUniqueObjects = "__uniqueObjects__";
-static const char* kClassNames = "__classNames__";
-
+    
 namespace RRGCoding {
 #pragma mark - EncodableObject
     EncodableObject::EncodableObject()

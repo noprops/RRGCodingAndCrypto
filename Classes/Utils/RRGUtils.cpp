@@ -8,22 +8,24 @@
 
 #include "RRGUtils.h"
 
-static const char* kNone = "none";
-static const char* kByte = "byte";
-static const char* kInt = "int";
-static const char* kFloat = "float";
-static const char* kDouble = "double";
-static const char* kBool = "bool";
-static const char* kString = "string";
-static const char* kVector = "vector";
-static const char* kMap = "map";
-static const char* kKey = "key";
+namespace {
+    const char* kNone = "none";
+    const char* kByte = "byte";
+    const char* kInt = "int";
+    const char* kFloat = "float";
+    const char* kDouble = "double";
+    const char* kBool = "bool";
+    const char* kString = "string";
+    const char* kVector = "vector";
+    const char* kMap = "map";
+    const char* kKey = "key";
+    
+    const char* kTrue = "true";
+    const char* kFalse = "false";
+}
 
-static const char* kTrue = "true";
-static const char* kFalse = "false";
-
-USING_NS_CC;
 using namespace std;
+USING_NS_CC;
 
 namespace RRGUtils {
     bool hasPrefix(const string& str, const string& prefix)
