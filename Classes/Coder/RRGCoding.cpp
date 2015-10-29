@@ -207,12 +207,13 @@ namespace RRGCoding {
     {
         CCLOG("%s", __PRETTY_FUNCTION__);
         
+        /*
         string log = "valueMap : \n";
          for (auto it = valueMap.begin(); it != valueMap.end(); ++it) {
              log.append(it->first + " : " + it->second.getDescription() + "\n");
          }
         CCLOG("%s", log.c_str());
-        
+        */
         if (valueMap.find(kRootObject) == valueMap.end() ||
             valueMap.find(kUniqueObjects) == valueMap.end() ||
             valueMap.find(kClassNames) == valueMap.end())
