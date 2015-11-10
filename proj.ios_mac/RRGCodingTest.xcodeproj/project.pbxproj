@@ -163,10 +163,6 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8C002F4D1BDCA25B00D4459B /* RRGCoding_Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Array.h; sourceTree = "<group>"; };
-		8C002F501BDCA26300D4459B /* RRGCoding_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Object.h; sourceTree = "<group>"; };
-		8C002F531BDCA26B00D4459B /* RRGCoding_Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Vector.h; sourceTree = "<group>"; };
-		8C002F591BDCA28200D4459B /* RRGCoding_Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Map.h; sourceTree = "<group>"; };
 		8C09559C1BBC199F0003A925 /* RRGCoding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGCoding.cpp; sourceTree = "<group>"; };
 		8C09559D1BBC199F0003A925 /* RRGCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding.h; sourceTree = "<group>"; };
 		8C09559F1BBC1F910003A925 /* RRGLevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGLevel.cpp; sourceTree = "<group>"; };
@@ -185,6 +181,8 @@
 		8C0955C81BC3741F0003A925 /* RRGCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCrypto.h; sourceTree = "<group>"; };
 		8C0955CF1BC40D240003A925 /* RRGUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RRGUtils.cpp; sourceTree = "<group>"; };
 		8C0955D01BC40D240003A925 /* RRGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGUtils.h; sourceTree = "<group>"; };
+		8C1BCC891BF0E8C900C7C30E /* RRGCoding_Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Encoder.h; sourceTree = "<group>"; };
+		8C1BCC8C1BF0E8D200C7C30E /* RRGCoding_Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRGCoding_Decoder.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -404,10 +402,8 @@
 			children = (
 				8C09559C1BBC199F0003A925 /* RRGCoding.cpp */,
 				8C09559D1BBC199F0003A925 /* RRGCoding.h */,
-				8C002F4D1BDCA25B00D4459B /* RRGCoding_Array.h */,
-				8C002F531BDCA26B00D4459B /* RRGCoding_Vector.h */,
-				8C002F591BDCA28200D4459B /* RRGCoding_Map.h */,
-				8C002F501BDCA26300D4459B /* RRGCoding_Object.h */,
+				8C1BCC891BF0E8C900C7C30E /* RRGCoding_Encoder.h */,
+				8C1BCC8C1BF0E8D200C7C30E /* RRGCoding_Decoder.h */,
 			);
 			path = Coder;
 			sourceTree = "<group>";

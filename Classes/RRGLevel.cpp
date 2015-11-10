@@ -111,7 +111,7 @@ bool RRGLevel::init()
     }
 }
 
-void RRGLevel::initWithCoder(RRGCoding::Coder* coder)
+void RRGLevel::initWithDecoder(RRGCoding::Decoder* decoder)
 {
     DECODE_OBJECT(RRGCharacter, _character1);
     CC_SAFE_RETAIN(_character1);
@@ -141,7 +141,7 @@ void RRGLevel::initWithCoder(RRGCoding::Coder* coder)
     DECODE_MAP(Rect, _rectMap);
 }
 
-void RRGLevel::encodeWithCoder(RRGCoding::Coder* coder)
+void RRGLevel::encodeWithEncoder(RRGCoding::Encoder* encoder)
 {
     ENCODE_OBJECT(_character1);
     ENCODE_OBJECT(_character2);

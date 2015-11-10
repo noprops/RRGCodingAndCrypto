@@ -32,63 +32,66 @@ return nullptr;\
 }\
 }
 
-#define ENCODE_INT(X) coder->encodeInt(X,#X)
-#define DECODE_INT(X) X=coder->decodeInt(#X)
-#define DECODE_ENUM(ENUMTYPE,X) X=static_cast<ENUMTYPE>(coder->decodeInt(#X))
+#define ENCODE_INT(X) encoder->encodeInt(X,#X)
+#define DECODE_INT(X) X=decoder->decodeInt(#X)
+#define DECODE_ENUM(ENUMTYPE,X) X=static_cast<ENUMTYPE>(decoder->decodeInt(#X))
 
-#define ENCODE_FLOAT(X) coder->encodeFloat(X,#X)
-#define DECODE_FLOAT(X) X=coder->decodeFloat(#X)
+#define ENCODE_FLOAT(X) encoder->encodeFloat(X,#X)
+#define DECODE_FLOAT(X) X=decoder->decodeFloat(#X)
 
-#define ENCODE_DOUBLE(X) coder->encodeDouble(X,#X)
-#define DECODE_DOUBLE(X) X=coder->decodeDouble(#X)
+#define ENCODE_DOUBLE(X) encoder->encodeDouble(X,#X)
+#define DECODE_DOUBLE(X) X=decoder->decodeDouble(#X)
 
-#define ENCODE_STRING(X) coder->encodeString(X,#X)
-#define DECODE_STRING(X) X=coder->decodeString(#X)
+#define ENCODE_STRING(X) encoder->encodeString(X,#X)
+#define DECODE_STRING(X) X=decoder->decodeString(#X)
 
-#define ENCODE_BOOL(X) coder->encodeBool(X,#X)
-#define DECODE_BOOL(X) X=coder->decodeBool(#X)
+#define ENCODE_BOOL(X) encoder->encodeBool(X,#X)
+#define DECODE_BOOL(X) X=decoder->decodeBool(#X)
 
-#define ENCODE_POINT(X) coder->encodePoint(X,#X)
-#define DECODE_POINT(X) X=coder->decodePoint(#X)
+#define ENCODE_POINT(X) encoder->encodePoint(X,#X)
+#define DECODE_POINT(X) X=decoder->decodePoint(#X)
 
-#define ENCODE_SIZE(X) coder->encodeSize(X,#X)
-#define DECODE_SIZE(X) X=coder->decodeSize(#X)
+#define ENCODE_SIZE(X) encoder->encodeSize(X,#X)
+#define DECODE_SIZE(X) X=decoder->decodeSize(#X)
 
-#define ENCODE_RECT(X) coder->encodeRect(X,#X)
-#define DECODE_RECT(X) X=coder->decodeRect(#X)
+#define ENCODE_RECT(X) encoder->encodeRect(X,#X)
+#define DECODE_RECT(X) X=decoder->decodeRect(#X)
 
-#define ENCODE_VALUEVECTOR(X) coder->encodeValueVector(X,#X)
-#define DECODE_VALUEVECTOR(X) X=coder->decodeValueVector(#X)
+#define ENCODE_VALUEVECTOR(X) encoder->encodeValueVector(X,#X)
+#define DECODE_VALUEVECTOR(X) X=decoder->decodeValueVector(#X)
 
-#define ENCODE_VALUEMAP(X) coder->encodeValueMap(X,#X)
-#define DECODE_VALUEMAP(X) X=coder->decodeValueMap(#X)
+#define ENCODE_VALUEMAP(X) encoder->encodeValueMap(X,#X)
+#define DECODE_VALUEMAP(X) X=decoder->decodeValueMap(#X)
 
-#define ENCODE_DATA(X) coder->encodeData(X,#X)
-#define DECODE_DATA(X) X=coder->decodeData(#X)
+#define ENCODE_DATA(X) encoder->encodeData(X,#X)
+#define DECODE_DATA(X) X=decoder->decodeData(#X)
 
-#define ENCODE_ARRAY(X,SIZE) coder->encodeArray(X,SIZE,#X)
-#define DECODE_ARRAY(CLASSNAME,X) X=coder->decodeArray<CLASSNAME>(#X)
+#define ENCODE_ARRAY(X,SIZE) encoder->encodeArray(X,SIZE,#X)
+#define DECODE_ARRAY(CLASSNAME,X) X=decoder->decodeArray<CLASSNAME>(#X)
 
-#define ENCODE_VECTOR(X) coder->encodeVector(X,#X)
-#define DECODE_VECTOR(CLASSNAME,X) X=coder->decodeVector<CLASSNAME>(#X)
+#define ENCODE_VECTOR(X) encoder->encodeVector(X,#X)
+#define DECODE_VECTOR(CLASSNAME,X) X=decoder->decodeVector<CLASSNAME>(#X)
 
-#define ENCODE_MAP(X) coder->encodeMap(X,#X)
-#define DECODE_MAP(CLASSNAME,X) X=coder->decodeMap<CLASSNAME>(#X)
+#define ENCODE_MAP(X) encoder->encodeMap(X,#X)
+#define DECODE_MAP(CLASSNAME,X) X=decoder->decodeMap<CLASSNAME>(#X)
 
-#define ENCODE_OBJECT(X) coder->encodeObject(X,#X)
-#define DECODE_OBJECT(CLASSNAME,X) X=coder->decodeObject<CLASSNAME>(#X)
+#define ENCODE_OBJECT(X) encoder->encodeObject(X,#X)
+#define DECODE_OBJECT(CLASSNAME,X) X=decoder->decodeObject<CLASSNAME>(#X)
 
-#define ENCODE_VECTOR_OBJECTS(X) coder->encodeVectorOfObjects(X,#X)
-#define DECODE_VECTOR_OBJECTS(CLASSNAME,X) X=coder->decodeVectorOfObjects<CLASSNAME>(#X)
+#define ENCODE_VECTOR_OBJECTS(X) encoder->encodeVectorOfObjects(X,#X)
+#define DECODE_VECTOR_OBJECTS(CLASSNAME,X) X=decoder->decodeVectorOfObjects<CLASSNAME>(#X)
 
-#define ENCODE_MAP_OBJECTS(X) coder->encodeMapOfObjects(X,#X)
-#define DECODE_MAP_OBJECTS(CLASSNAME,X) X=coder->decodeMapOfObjects<CLASSNAME>(#X)
+#define ENCODE_MAP_OBJECTS(X) encoder->encodeMapOfObjects(X,#X)
+#define DECODE_MAP_OBJECTS(CLASSNAME,X) X=decoder->decodeMapOfObjects<CLASSNAME>(#X)
 
 namespace RRGCoding {
-    class Coder;
+    class Encoder;
+    class Decoder;
     class Archiver;
     class Unarchiver;
+    
 #pragma mark - EncodableObject;
+    
     class EncodableObject
     {
     private:
@@ -110,12 +113,14 @@ namespace RRGCoding {
         static bool registerEncodableObject(const std::string& className, AllocFuncPtr alloc_func);
         static EncodableObject *allocWithString(const std::string& className);
         
-        virtual void encodeWithCoder(Coder* coder) = 0;
-        virtual void initWithCoder(Coder* coder) = 0;
+        virtual void encodeWithEncoder(Encoder* encoder) = 0;
+        virtual void initWithDecoder(Decoder* decoder) = 0;
         
         const std::string& getClassName();
     };
+    
 #pragma mark - archiver
+    
     class Archiver : public cocos2d::Ref
     {
     private:
@@ -137,7 +142,9 @@ namespace RRGCoding {
         void generateValueMap(EncodableObject* object);
         int getReferenceIndexOfObject(EncodableObject* object);
     };
+    
 #pragma mark - unarchiver
+    
     class Unarchiver : public cocos2d::Ref
     {
     public:
@@ -153,103 +160,114 @@ namespace RRGCoding {
         cocos2d::ValueMap _uniqueObjectsClassNames;
         cocos2d::ValueMap _uniqueObjectsValueMaps;
     };
-#pragma mark - Coder
-    class Coder : public cocos2d::Ref
+    
+#pragma mark - Encoder
+    
+    class Encoder : public cocos2d::Ref
     {
     private:
         Archiver* _archiver;
-        Unarchiver* _unarchiver;
-        
         cocos2d::ValueMap _valueMap;
     public:
         cocos2d::ValueMap getValueMap() {return _valueMap;};
         
-        Coder();
-        ~Coder();
-        static Coder* createWithArchiver(Archiver* archiver);
-        static Coder* createWithUnarchiver(Unarchiver* unarchiver,
-                                           const cocos2d::ValueMap& valueMap);
+        Encoder();
+        ~Encoder();
+        static Encoder* createWithArchiver(Archiver* archiver);
         
         bool initWithArchiver(Archiver* archiver);
-        bool initWithUnarchiver(Unarchiver* unarchiver,
-                                const cocos2d::ValueMap& valueMap);
         
         void encodeInt(int i, const std::string& key);
-        int decodeInt(const std::string& key);
-        
         void encodeFloat(float f, const std::string& key);
-        float decodeFloat(const std::string& key);
-        
         void encodeDouble(double d, const std::string& key);
-        float decodeDouble(const std::string& key);
-        
         void encodeString(const std::string& str, const std::string& key);
-        std::string decodeString(const std::string& key);
-        
         void encodeBool(bool b, const std::string& key);
-        bool decodeBool(const std::string& key);
-        
         void encodePoint(const cocos2d::Vec2& p, const std::string& key);
-        cocos2d::Vec2 decodePoint(const std::string& key);
-        
         void encodeSize(const cocos2d::Size& size, const std::string& key);
-        cocos2d::Size decodeSize(const std::string& key);
-        
         void encodeRect(const cocos2d::Rect& rect, const std::string& key);
-        cocos2d::Rect decodeRect(const std::string& key);
-        
         void encodeValueVector(const cocos2d::ValueVector& vector, const std::string& key);
-        cocos2d::ValueVector decodeValueVector(const std::string& key);
-        
         void encodeValueMap(const cocos2d::ValueMap& map, const std::string& key);
-        cocos2d::ValueMap decodeValueMap(const std::string& key);
-        
         void encodeData(const cocos2d::Data& data, const std::string& key);
-        cocos2d::Data decodeData(const std::string& key);
-        
-#pragma mark - array
         
         template <typename T>
         void encodeArray(T* array, int size, const std::string& key);
-        template <typename T>
-        T* decodeArray(const std::string& key);
-        
-#pragma mark - vector
         
         template <typename T>
         inline void encodeVector(const std::vector<T>& vector, const std::string& key);
-        template <typename T>
-        inline std::vector<T> decodeVector(const std::string& key);
-        
-#pragma mark - map
         
         template <typename T>
         inline void encodeMap(const std::unordered_map<std::string,T>& map, const std::string& key);
+        
+        void encodeObject(EncodableObject* object, const std::string& key);
+        
+        template <typename T,
+        typename std::enable_if<std::is_convertible<T*, cocos2d::Ref*>::value &&
+        std::is_convertible<T*, EncodableObject*>::value, std::nullptr_t>::type = nullptr>
+        void encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key);
+        
+        template <typename T,
+        typename std::enable_if<std::is_convertible<T*, cocos2d::Ref*>::value &&
+        std::is_convertible<T*, EncodableObject*>::value, std::nullptr_t>::type = nullptr>
+        void encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key);
+    };
+    
+#pragma mark - Decoder
+    
+    class Decoder : public cocos2d::Ref
+    {
+    private:
+        Unarchiver* _unarchiver;
+        cocos2d::ValueMap _valueMap;
+    public:
+        cocos2d::ValueMap getValueMap() {return _valueMap;};
+        
+        Decoder();
+        ~Decoder();
+        static Decoder* createWithUnarchiver(Unarchiver* unarchiver,
+                                             const cocos2d::ValueMap& valueMap);
+        
+        bool initWithUnarchiver(Unarchiver* unarchiver,
+                                const cocos2d::ValueMap& valueMap);
+        
+        int decodeInt(const std::string& key);
+        float decodeFloat(const std::string& key);
+        float decodeDouble(const std::string& key);
+        std::string decodeString(const std::string& key);
+        bool decodeBool(const std::string& key);
+        cocos2d::Vec2 decodePoint(const std::string& key);
+        cocos2d::Size decodeSize(const std::string& key);
+        cocos2d::Rect decodeRect(const std::string& key);
+        cocos2d::ValueVector decodeValueVector(const std::string& key);
+        cocos2d::ValueMap decodeValueMap(const std::string& key);
+        cocos2d::Data decodeData(const std::string& key);
+        
+        template <typename T>
+        T* decodeArray(const std::string& key);
+        
+        template <typename T>
+        inline std::vector<T> decodeVector(const std::string& key);
+        
         template <typename T>
         inline std::unordered_map<std::string,T> decodeMap(const std::string& key);
         
-#pragma mark - object
-        
-        template <typename T>
-        void encodeObject(T* object, const std::string& key);
-        template <typename T>
+        template <typename T,
+        typename std::enable_if<std::is_convertible<T*, cocos2d::Ref*>::value &&
+        std::is_convertible<T*, EncodableObject*>::value, std::nullptr_t>::type = nullptr>
         T* decodeObject(const std::string& key);
         
-        template <typename T>
-        void encodeVectorOfObjects(const cocos2d::Vector<T*>& vector, const std::string& key);
-        template <typename T>
+        template <typename T,
+        typename std::enable_if<std::is_convertible<T*, cocos2d::Ref*>::value &&
+        std::is_convertible<T*, EncodableObject*>::value, std::nullptr_t>::type = nullptr>
         cocos2d::Vector<T*> decodeVectorOfObjects(const std::string& key);
         
-        template <typename T>
-        void encodeMapOfObjects(const cocos2d::Map<std::string, T*>& map, const std::string& key);
-        template <typename T>
+        template <typename T,
+        typename std::enable_if<std::is_convertible<T*, cocos2d::Ref*>::value &&
+        std::is_convertible<T*, EncodableObject*>::value, std::nullptr_t>::type = nullptr>
         cocos2d::Map<std::string, T*> decodeMapOfObjects(const std::string& key);
     };
 }
 
-#include "RRGCoding_Array.h"
-#include "RRGCoding_Vector.h"
-#include "RRGCoding_Map.h"
-#include "RRGCoding_Object.h"
+#include "RRGCoding_Encoder.h"
+#include "RRGCoding_Decoder.h"
 
 #endif /* defined(__RRGCodingTest__RRGCoding__) */

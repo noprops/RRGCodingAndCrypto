@@ -35,7 +35,7 @@ bool RRGLevelObject::initWithLevel(RRGLevel* level)
     }
 }
 
-void RRGLevelObject::initWithCoder(RRGCoding::Coder* coder)
+void RRGLevelObject::initWithDecoder(RRGCoding::Decoder* decoder)
 {
     DECODE_OBJECT(RRGLevel, _level);
     DECODE_POINT(_tileCoord);
@@ -43,7 +43,7 @@ void RRGLevelObject::initWithCoder(RRGCoding::Coder* coder)
     DECODE_RECT(_testRect);
 }
 
-void RRGLevelObject::encodeWithCoder(RRGCoding::Coder* coder)
+void RRGLevelObject::encodeWithEncoder(RRGCoding::Encoder* encoder)
 {
     ENCODE_OBJECT(_level);
     ENCODE_POINT(_tileCoord);

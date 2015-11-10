@@ -128,10 +128,10 @@ namespace RRGCoding {
         
         addUniqueObject(object);
         
-        Coder* coder = Coder::createWithArchiver(this);
-        object->encodeWithCoder(coder);
+        Encoder* encoder = Encoder::createWithArchiver(this);
+        object->encodeWithEncoder(encoder);
         
-        addValueMap(coder->getValueMap(), getReferenceIndexOfObject(object));
+        addValueMap(encoder->getValueMap(), getReferenceIndexOfObject(object));
     }
     
     void Archiver::addUniqueObject(EncodableObject* object)
@@ -245,28 +245,28 @@ namespace RRGCoding {
         _uniqueObjects[referenceIndex] = object;
         
         ValueMap valueMap = _uniqueObjectsValueMaps.at(to_string(referenceIndex)).asValueMap();
-        Coder* coder = Coder::createWithUnarchiver(this, valueMap);
-        object->initWithCoder(coder);
+        Decoder* decoder = Decoder::createWithUnarchiver(this, valueMap);
+        object->initWithDecoder(decoder);
         
         return object;
     }
     
-#pragma mark - Coder
-    Coder::Coder()
-    :_archiver(nullptr),
-    _unarchiver(nullptr)
+#pragma mark - Encoder
+    
+    Encoder::Encoder()
+    :_archiver(nullptr)
     {
         
     }
     
-    Coder::~Coder()
+    Encoder::~Encoder()
     {
         _valueMap.clear();
     }
     
-    Coder* Coder::createWithArchiver(Archiver* archiver)
+    Encoder* Encoder::createWithArchiver(Archiver* archiver)
     {
-        Coder* ref = new (nothrow) Coder();
+        Encoder* ref = new (nothrow) Encoder();
         if (ref && ref->initWithArchiver(archiver)) {
             ref->autorelease();
             return ref;
@@ -276,128 +276,50 @@ namespace RRGCoding {
         }
     }
     
-    Coder* Coder::createWithUnarchiver(Unarchiver* unarchiver, const ValueMap& valueMap)
-    {
-        Coder *ref = new (nothrow) Coder();
-        
-        if (ref && ref->initWithUnarchiver(unarchiver, valueMap)) {
-            ref->autorelease();
-            return ref;
-        } else {
-            CC_SAFE_DELETE(ref);
-            return nullptr;
-        }
-    }
-    
-    bool Coder::initWithArchiver(Archiver* archiver)
+    bool Encoder::initWithArchiver(Archiver* archiver)
     {
         _archiver = archiver;
         return true;
     }
     
-    bool Coder::initWithUnarchiver(Unarchiver* unarchiver, const ValueMap& valueMap)
-    {
-        _unarchiver = unarchiver;
-        _valueMap = valueMap;
-        return true;
-    }
-    
-    void Coder::encodeInt(int i, const string& key)
+    void Encoder::encodeInt(int i, const string& key)
     {
         _valueMap[key] = i;
     }
-    int Coder::decodeInt(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asInt();
-        } else {
-            return 0;
-        }
-    }
     
-    void Coder::encodeFloat(float f, const string& key)
+    void Encoder::encodeFloat(float f, const string& key)
     {
         _valueMap[key] = f;
     }
-    float Coder::decodeFloat(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asFloat();
-        } else {
-            return 0.0f;
-        }
-    }
     
-    void Coder::encodeDouble(double d, const string& key)
+    void Encoder::encodeDouble(double d, const string& key)
     {
         _valueMap[key] = d;
     }
-    float Coder::decodeDouble(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asDouble();
-        } else {
-            return 0.0;
-        }
-    }
     
-    void Coder::encodeString(const string& str, const string& key)
+    void Encoder::encodeString(const string& str, const string& key)
     {
         _valueMap[key] = str;
     }
-    string Coder::decodeString(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asString();
-        } else {
-            return "";
-        }
-    }
     
-    void Coder::encodeBool(bool b, const string& key)
+    void Encoder::encodeBool(bool b, const string& key)
     {
         _valueMap[key] = b;
     }
-    bool Coder::decodeBool(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asBool();
-        } else {
-            return false;
-        };
-    }
     
-    void Coder::encodePoint(const Vec2& p, const string& key)
+    void Encoder::encodePoint(const Vec2& p, const string& key)
     {
         string string = StringUtils::format("{%f,%f}",p.x,p.y);
         _valueMap[key] = string;
     }
-    Vec2 Coder::decodePoint(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            string string = _valueMap.at(key).asString();
-            return PointFromString(string);
-        } else {
-            return Vec2::ZERO;
-        }
-    }
     
-    void Coder::encodeSize(const Size& size, const string& key)
+    void Encoder::encodeSize(const Size& size, const string& key)
     {
         string string = StringUtils::format("{%f,%f}",size.width,size.height);
         _valueMap[key] = string;
     }
-    Size Coder::decodeSize(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            string string = _valueMap.at(key).asString();
-            return SizeFromString(string);
-        } else {
-            return Size::ZERO;
-        }
-    }
     
-    void Coder::encodeRect(const Rect& rect, const string& key)
+    void Encoder::encodeRect(const Rect& rect, const string& key)
     {
         string string = StringUtils::format("{{%f,%f},{%f,%f}}",
                                                  rect.origin.x,
@@ -406,43 +328,18 @@ namespace RRGCoding {
                                                  rect.size.height);
         _valueMap[key] = string;
     }
-    Rect Coder::decodeRect(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            string string = _valueMap.at(key).asString();
-            return RectFromString(string);
-        } else {
-            return Rect::ZERO;
-        }
-    }
     
-    void Coder::encodeValueVector(const ValueVector& vector, const string& key)
+    void Encoder::encodeValueVector(const ValueVector& vector, const string& key)
     {
         _valueMap[key] = vector;
     }
-    ValueVector Coder::decodeValueVector(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asValueVector();
-        } else {
-            return ValueVectorNull;
-        }
-    }
     
-    void Coder::encodeValueMap(const ValueMap& map, const string& key)
+    void Encoder::encodeValueMap(const ValueMap& map, const string& key)
     {
         _valueMap[key] = map;
     }
-    ValueMap Coder::decodeValueMap(const string& key)
-    {
-        if (_valueMap.find(key) != _valueMap.end()) {
-            return _valueMap.at(key).asValueMap();
-        } else {
-            return ValueMapNull;
-        }
-    }
     
-    void Coder::encodeData(const Data& data, const string& key)
+    void Encoder::encodeData(const Data& data, const string& key)
     {
         char* encodedData = nullptr;
         base64Encode(data.getBytes(),
@@ -453,7 +350,144 @@ namespace RRGCoding {
             free(encodedData);
         }
     }
-    Data Coder::decodeData(const string& key)
+    
+    void Encoder::encodeObject(EncodableObject* object, const std::string& key)
+    {
+        if (object == nullptr) {
+            return;
+        }
+        
+        _archiver->generateValueMap(object);
+        _valueMap[key] = _archiver->getReferenceIndexOfObject(object);
+    }
+    
+#pragma mark - Decoder
+    
+    Decoder::Decoder()
+    :_unarchiver(nullptr)
+    {
+        
+    }
+    
+    Decoder::~Decoder()
+    {
+        _valueMap.clear();
+    }
+    
+    Decoder* Decoder::createWithUnarchiver(Unarchiver* unarchiver, const ValueMap& valueMap)
+    {
+        Decoder *ref = new (nothrow) Decoder();
+        
+        if (ref && ref->initWithUnarchiver(unarchiver, valueMap)) {
+            ref->autorelease();
+            return ref;
+        } else {
+            CC_SAFE_DELETE(ref);
+            return nullptr;
+        }
+    }
+    
+    bool Decoder::initWithUnarchiver(Unarchiver* unarchiver, const ValueMap& valueMap)
+    {
+        _unarchiver = unarchiver;
+        _valueMap = valueMap;
+        return true;
+    }
+    
+    int Decoder::decodeInt(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asInt();
+        } else {
+            return 0;
+        }
+    }
+    
+    float Decoder::decodeFloat(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asFloat();
+        } else {
+            return 0.0f;
+        }
+    }
+    
+    float Decoder::decodeDouble(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asDouble();
+        } else {
+            return 0.0;
+        }
+    }
+    
+    string Decoder::decodeString(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asString();
+        } else {
+            return "";
+        }
+    }
+    
+    bool Decoder::decodeBool(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asBool();
+        } else {
+            return false;
+        };
+    }
+    
+    Vec2 Decoder::decodePoint(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            string string = _valueMap.at(key).asString();
+            return PointFromString(string);
+        } else {
+            return Vec2::ZERO;
+        }
+    }
+    
+    Size Decoder::decodeSize(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            string string = _valueMap.at(key).asString();
+            return SizeFromString(string);
+        } else {
+            return Size::ZERO;
+        }
+    }
+    
+    Rect Decoder::decodeRect(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            string string = _valueMap.at(key).asString();
+            return RectFromString(string);
+        } else {
+            return Rect::ZERO;
+        }
+    }
+    
+    ValueVector Decoder::decodeValueVector(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asValueVector();
+        } else {
+            return ValueVectorNull;
+        }
+    }
+    
+    ValueMap Decoder::decodeValueMap(const string& key)
+    {
+        if (_valueMap.find(key) != _valueMap.end()) {
+            return _valueMap.at(key).asValueMap();
+        } else {
+            return ValueMapNull;
+        }
+    }
+    
+    Data Decoder::decodeData(const string& key)
     {
         if (_valueMap.find(key) == _valueMap.end()) {
             return Data::Null;
