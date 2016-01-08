@@ -56,24 +56,22 @@ bool HelloWorld::init()
     //    you may modify it.
     
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto item = MenuItemLabel::create(Label::createWithTTF("Archive", "fonts/Marker Felt.ttf", 24),
+                                      CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-    
-    auto item2 = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::compareTest, this));
-    
+    item->setPosition(Vec2(origin.x + visibleSize.width - item->getContentSize().width/2 ,
+                           origin.y + item->getContentSize().height/2));
+    /*
+     auto item2 = MenuItemImage::create(
+     "CloseNormal.png",
+     "CloseSelected.png",
+     CC_CALLBACK_1(HelloWorld::compareTest, this));
+     
     item2->setPosition(Vec2(origin.x + visibleSize.width - item2->getContentSize().width/2 ,
-                                origin.y + item2->getContentSize().height/2 + closeItem->getContentSize().height));
-    
+                                origin.y + item2->getContentSize().height/2 + item->getContentSize().height));
+    */
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, item2, NULL);
+    auto menu = Menu::create(item, /*item2,*/ NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
     

@@ -494,11 +494,12 @@ namespace RRGCoding {
         }
         
         const char* encodedData = _valueMap.at(key).asString().c_str();
+        CCLOG("encodedData = %s", encodedData);
         unsigned char* decodedData = nullptr;
         int decodedDataLen = base64Decode((unsigned char*)encodedData,
                                           (unsigned int)strlen(encodedData),
                                           &decodedData);
-        
+        CCLOG("decodedDataLen = %d", decodedDataLen);
         if (decodedData) {
             Data data;
             data.fastSet(decodedData, decodedDataLen);

@@ -40,9 +40,7 @@ bool SecondScene::init()
         Size visibleSize = Director::getInstance()->getVisibleSize();
         Vec2 origin = Director::getInstance()->getVisibleOrigin();
         
-        auto item = MenuItemImage::create(
-                                          "CloseNormal.png",
-                                          "CloseSelected.png",
+        auto item = MenuItemLabel::create(Label::createWithTTF("Unarchive", "fonts/Marker Felt.ttf", 24),
                                           CC_CALLBACK_1(SecondScene::buttonCallback, this));
         
         item->setPosition(Vec2(origin.x + visibleSize.width - item->getContentSize().width/2 ,
