@@ -11,7 +11,7 @@
 #include "Tamara.h"
 
 namespace {
-    const int intArraySize = 72;
+    const int intArraySize = 20;
 }
 
 USING_NS_CC;

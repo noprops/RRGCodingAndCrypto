@@ -345,6 +345,7 @@ namespace RRGCoding {
         base64Encode(data.getBytes(),
                      static_cast<unsigned int>(data.getSize()),
                      &encodedData);
+        CCLOG("encodedData = %s",encodedData);
         _valueMap[key] = encodedData;
         if (encodedData) {
             free(encodedData);
