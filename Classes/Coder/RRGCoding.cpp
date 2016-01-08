@@ -352,6 +352,24 @@ namespace RRGCoding {
         }
     }
     
+    void Encoder::encodeIntArray(int* array, size_t size, const std::string& key)
+    {
+        ValueVector vect;
+        for (int i = 0; i < size; i++) {
+            vect.push_back(Value(array[i]));
+        }
+        _valueMap[key] = vect;
+    }
+    
+    void Encoder::encodeBoolArray(bool* array, size_t size, const std::string& key)
+    {
+        ValueVector vect;
+        for (int i = 0; i < size; i++) {
+            vect.push_back(Value(array[i]));
+        }
+        _valueMap[key] = vect;
+    }
+    
     void Encoder::encodeObject(EncodableObject* object, const std::string& key)
     {
         if (object == nullptr) {
@@ -508,5 +526,35 @@ namespace RRGCoding {
         } else {
             return Data::Null;
         }
+    }
+    
+    int* Decoder::decodeIntArray(const std::string& key)
+    {
+        if (_valueMap.find(key) == _valueMap.end()) {
+            return nullptr;
+        }
+        
+        ValueVector vect = _valueMap.at(key).asValueVector();
+        size_t size = vect.size();
+        int* array = new int[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = vect.at(i).asInt();
+        }
+        return array;
+    }
+    
+    bool* Decoder::decodeBoolArray(const std::string& key)
+    {
+        if (_valueMap.find(key) == _valueMap.end()) {
+            return nullptr;
+        }
+        
+        ValueVector vect = _valueMap.at(key).asValueVector();
+        size_t size = vect.size();
+        bool* array = new bool[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = vect.at(i).asBool();
+        }
+        return array;
     }
 }

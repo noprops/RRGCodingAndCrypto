@@ -66,6 +66,12 @@ return nullptr;\
 #define ENCODE_DATA(X) encoder->encodeData(X,#X)
 #define DECODE_DATA(X) X=decoder->decodeData(#X)
 
+#define ENCODE_INT_ARRAY(X,SIZE) encoder->encodeIntArray(X,SIZE,#X)
+#define DECODE_INT_ARRAY(X) X=decoder->decodeIntArray(#X)
+
+#define ENCODE_BOOL_ARRAY(X,SIZE) encoder->encodeBoolArray(X,SIZE,#X)
+#define DECODE_BOOL_ARRAY(X) X=decoder->decodeBoolArray(#X)
+
 #define ENCODE_ARRAY(X,SIZE) encoder->encodeArray(X,SIZE,#X)
 #define DECODE_ARRAY(CLASSNAME,X) X=decoder->decodeArray<CLASSNAME>(#X)
 
@@ -188,6 +194,8 @@ namespace RRGCoding {
         void encodeValueVector(const cocos2d::ValueVector& vector, const std::string& key);
         void encodeValueMap(const cocos2d::ValueMap& map, const std::string& key);
         void encodeData(const cocos2d::Data& data, const std::string& key);
+        void encodeIntArray(int* array, size_t size, const std::string& key);
+        void encodeBoolArray(bool* array, size_t size, const std::string& key);
         
         template <typename T>
         void encodeArray(T* array, int size, const std::string& key);
@@ -240,6 +248,8 @@ namespace RRGCoding {
         cocos2d::ValueVector decodeValueVector(const std::string& key);
         cocos2d::ValueMap decodeValueMap(const std::string& key);
         cocos2d::Data decodeData(const std::string& key);
+        int* decodeIntArray(const std::string& key);
+        bool* decodeBoolArray(const std::string& key);
         
         template <typename T>
         T* decodeArray(const std::string& key);
