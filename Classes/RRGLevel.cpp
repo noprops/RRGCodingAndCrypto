@@ -129,8 +129,7 @@ void RRGLevel::initWithDecoder(RRGCoding::Decoder* decoder)
     DECODE_FLOAT(_testFloat);
     DECODE_STRING(_testString);
     
-    DECODE_INT_ARRAY(_intArray);
-    //DECODE_ARRAY(int, _intArray);
+    DECODE_ARRAY(int, _intArray);
     
     DECODE_VALUEVECTOR(_valueVector);
     DECODE_VALUEMAP(_valueMap);
@@ -155,8 +154,7 @@ void RRGLevel::encodeWithEncoder(RRGCoding::Encoder* encoder)
     ENCODE_FLOAT(_testFloat);
     ENCODE_STRING(_testString);
     
-    ENCODE_INT_ARRAY(_intArray, intArraySize);
-    //ENCODE_ARRAY(_intArray, intArraySize);
+    ENCODE_ARRAY(_intArray, intArraySize);
     
     ENCODE_VALUEVECTOR(_valueVector);
     ENCODE_VALUEMAP(_valueMap);
